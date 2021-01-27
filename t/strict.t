@@ -9,8 +9,12 @@ diag "Perl Version '$]'";
 
 my ($out, $err, $exit) = capture("$^X t/bin/stricture.pl");
 is $exit, 255;
-diag $err;
-is index($err, q{Global symbol "$x" requires explicit package name (did you forget to declare "my $x"?)}), 0;
+#diag $err;
+if ($] >= '5.022') {
+    is index($err, q{Global symbol "$x" requires explicit package name (did you forget to declare "my $x"?)}), 0, 'stderr';
+} else {
+    is index($err, q{Global symbol "$x" requires explicit package name}), 0, 'stderr';
+}
 #diag index($err, q{Execution of t/stricture.pl aborted due to compilation errors.});
 #
 is $out, '', 'STDOUT is empty';
