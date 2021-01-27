@@ -32,10 +32,20 @@ diag "Test::More Version $Test::More::VERSION";
 
 {
     my ($out, $err, $exit) = capture("$^X t/bin/push_on_scalar.pl");
-    is $out, '', 'stdout';
-    is $exit, 255, 'exit';
-    is index($err, q{Experimental push on scalar is now forbidden}), 0, 'stderr';
-    diag $err;
+    #diag $err;
+    if ($] >= '5.024') {
+        is $out, '', 'stdout';
+        is $exit, 255, 'exit';
+        is index($err, q{Experimental push on scalar is now forbidden}), 0, 'stderr';
+    } elsif ($] >= '5.014') {
+        is $out, 'Foo Bar Moo', 'stdout';
+        is $exit, 0, 'exit';
+        is $err, '', 'stderr';
+    } else {
+        is $out, '', 'stdout';
+        is $exit, -1, 'exit';
+        is index($err, q{Type of arg 1 to push must be array (not private variable)}), 0, 'stderr';
+    }
     BEGIN { $tests += 3; }
 }
 
