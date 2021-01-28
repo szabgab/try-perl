@@ -53,3 +53,12 @@ diag "Test::More Version $Test::More::VERSION";
     BEGIN { $tests += 3; }
 }
 
+{
+    my ($out, $err, $exit) = capture("$^X t/bin/signatures.pl");
+    is $exit, 0, 'exit';
+    is $err, '', 'stderr';
+    is $out, 'You passed me Hello and World and these: 1 2 3', 'stdout';
+    diag $err;
+    BEGIN { $tests += 3; }
+}
+
