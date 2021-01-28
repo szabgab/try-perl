@@ -55,10 +55,16 @@ diag "Test::More Version $Test::More::VERSION";
 
 {
     my ($out, $err, $exit) = capture("$^X t/bin/signatures.pl");
-    is $exit, 0, 'exit';
-    is $err, '', 'stderr';
-    is $out, 'You passed me Hello and World and these: 1 2 3', 'stdout';
-    diag $err;
+    #diag $err;
+    if ($] >= '5.020') {
+        is $exit, 0, 'exit';
+        is $err, '', 'stderr';
+        is $out, 'You passed me Hello and World and these: 1 2 3', 'stdout';
+    } else {
+        is $exit, 2, 'exit';
+        is index($err, q{Can't locate experimental.pm}), 0, 'stderr';
+        is $out, '', 'stdout';
+    }
     BEGIN { $tests += 3; }
 }
 
