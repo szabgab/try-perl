@@ -68,3 +68,21 @@ diag "Test::More Version $Test::More::VERSION";
     BEGIN { $tests += 3; }
 }
 
+{
+    my ($out, $err, $exit) = capture("$^X t/bin/defined_array.pl");
+    is $exit, 255, 'exit';
+    is index($err, q{Can't use 'defined(@array)' (Maybe you should just omit the defined()?)}), 0, 'stderr';
+    is $out, '', 'stdout';
+    #diag $err;
+    BEGIN { $tests += 3; }
+}
+
+{
+    my ($out, $err, $exit) = capture("$^X t/bin/defined_hash.pl");
+    is $exit, 255, 'exit';
+    is index($err, q{Can't use 'defined(%hash)' (Maybe you should just omit the defined()?)}), 0, 'stderr';
+    is $out, '', 'stdout';
+    #diag $err;
+    BEGIN { $tests += 3; }
+}
+
