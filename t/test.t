@@ -76,7 +76,7 @@ diag "Test::More Version $Test::More::VERSION";
         is $out, '', 'stdout';
     } else {
         is $exit, 0, 'exit';
-        is $err, '', 'stderr';
+        is index($err, q{defined(@array) is deprecated}, 'stderr';
         is $out, '', 'stdout';
     }
     #diag $err;
@@ -91,7 +91,7 @@ diag "Test::More Version $Test::More::VERSION";
         is $out, '', 'stdout';
     } else {
         is $exit, 0, 'exit';
-        is $err, '', 'stderr';
+        is index($err, q{defined(%hash) is deprecated}, 'stderr';
         is $out, '', 'stdout';
     }
     #diag $err;
